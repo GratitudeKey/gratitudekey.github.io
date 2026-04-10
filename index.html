@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gratitude Key — Journal First. Then Scroll.</title>
+  <meta name="description" content="Gratitude Key is the mindfulness app that gates your social media behind a daily gratitude journal. One entry. All day access." />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0D0D0D;
+      color: #F5EADB;
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* NAV */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      position: sticky;
+      top: 0;
+      background: rgba(13,13,13,0.95);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-size: 18px;
+      font-weight: 600;
+      color: #E8A020;
+      letter-spacing: -0.3px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      color: #AA9382;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: #F5EADB; }
+
+    .nav-cta {
+      background: #C0683B;
+      color: #fff !important;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background 0.2s !important;
+    }
+
+    .nav-cta:hover { background: #A8562F !important; color: #fff; }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 100px 24px 80px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(192,104,59,0.15);
+      border: 1px solid rgba(192,104,59,0.3);
+      color: #C0683B;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 999px;
+      margin-bottom: 32px;
+    }
+
+    .hero-icon {
+      width: 100px;
+      height: 100px;
+      background: #000;
+      border-radius: 24px;
+      margin: 0 auto 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 56px;
+      border: 1px solid rgba(232,160,32,0.2);
+    }
+
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 60px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -1px;
+      margin-bottom: 24px;
+      color: #F5EADB;
+    }
+
+    .hero h1 span { color: #E8A020; }
+
+    .hero p {
+      font-size: 18px;
+      color: #AA9382;
+      line-height: 1.7;
+      margin-bottom: 40px;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: #C0683B;
+      color: #fff;
+      padding: 16px 32px;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 600;
+      transition: background 0.2s, transform 0.1s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover { background: #A8562F; transform: translateY(-1px); }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.06);
+      color: #F5EADB;
+      padding: 16px 32px;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 500;
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: background 0.2s;
+    }
+
+    .btn-secondary:hover { background: rgba(255,255,255,0.1); }
+
+    /* HOW IT WORKS */
+    .section {
+      padding: 80px 24px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #C0683B;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .section h2 {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      text-align: center;
+      margin-bottom: 16px;
+      color: #F5EADB;
+    }
+
+    .section-sub {
+      text-align: center;
+      color: #AA9382;
+      font-size: 16px;
+      margin-bottom: 56px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .step {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 28px;
+    }
+
+    .step-num {
+      width: 36px;
+      height: 36px;
+      background: rgba(192,104,59,0.15);
+      border: 1px solid rgba(192,104,59,0.3);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: #C0683B;
+      margin-bottom: 16px;
+    }
+
+    .step h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #F5EADB;
+      margin-bottom: 8px;
+    }
+
+    .step p {
+      font-size: 14px;
+      color: #7B6A5E;
+      line-height: 1.6;
+    }
+
+    /* FEATURES */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .feature {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 18px;
+      padding: 24px;
+    }
+
+    .feature-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
+    .feature h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #F5EADB;
+      margin-bottom: 6px;
+    }
+
+    .feature p {
+      font-size: 13px;
+      color: #7B6A5E;
+      line-height: 1.6;
+    }
+
+    /* PRIVACY */
+    .privacy-section {
+      background: rgba(192,104,59,0.06);
+      border: 1px solid rgba(192,104,59,0.15);
+      border-radius: 24px;
+      padding: 48px;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .privacy-section h2 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #F5EADB;
+    }
+
+    .privacy-section p {
+      font-size: 15px;
+      color: #AA9382;
+      line-height: 1.7;
+    }
+
+    /* CTA */
+    .cta-section {
+      text-align: center;
+      padding: 80px 24px 100px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .cta-section h2 {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 16px;
+    }
+
+    .cta-section p {
+      color: #AA9382;
+      font-size: 16px;
+      margin-bottom: 40px;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 32px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-logo {
+      font-size: 15px;
+      font-weight: 600;
+      color: #E8A020;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 13px;
+      color: #7B6A5E;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: #F5EADB; }
+
+    .footer-copy {
+      font-size: 13px;
+      color: #4F433B;
+    }
+
+    /* DIVIDER */
+    .divider {
+      height: 1px;
+      background: rgba(255,255,255,0.06);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      .privacy-section { padding: 32px 24px; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <span class="nav-logo">🗝 Gratitude Key</span>
+    <ul class="nav-links">
+      <li><a href="#how-it-works">How it works</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="privacy.html">Privacy</a></li>
+      <li><a href="#download" class="nav-cta">Download</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">Now available on Android</div>
+    <div class="hero-icon">🗝</div>
+    <h1>Journal first.<br /><span>Then scroll.</span></h1>
+    <p>
+      Gratitude Key gates your social media behind a 30-second gratitude journal.
+      One entry unlocks everything for the rest of the day.
+    </p>
+    <div class="hero-buttons" id="download">
+      <a href="https://play.google.com/store/apps/details?id=com.simon.gratitudekey" class="btn-primary">
+        ▶ Get it on Google Play
+      </a>
+      <a href="privacy.html" class="btn-secondary">Privacy Policy</a>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- HOW IT WORKS -->
+  <section class="section" id="how-it-works">
+    <p class="section-label">How it works</p>
+    <h2>Simple by design.</h2>
+    <p class="section-sub">Three steps. Thirty seconds. One habit that changes how you start every day.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Choose your apps</h3>
+        <p>Pick which apps to gate — Instagram, TikTok, YouTube, Twitter, and more. You're in control.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Write one thing</h3>
+        <p>Before your apps unlock, write one thing you're grateful for. It takes 30 seconds.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Unlock your day</h3>
+        <p>All your gated apps unlock for the rest of the day. Come back tomorrow and do it again.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- FEATURES -->
+  <section class="section" id="features">
+    <p class="section-label">Features</p>
+    <h2>Everything you need.<br />Nothing you don't.</h2>
+    <p class="section-sub">Built to be simple, intentional, and genuinely useful.</p>
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">🔒</div>
+        <h3>App Gating</h3>
+        <p>Gate any app you choose. Your daily checkpoint resets the gate automatically.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🔥</div>
+        <h3>Streak Tracking</h3>
+        <p>Build a daily journaling streak and watch your consistency grow over time.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">😊</div>
+        <h3>Mood Tracking</h3>
+        <p>Log how you're feeling each day alongside your entry with mood-based prompts.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📓</div>
+        <h3>Beautiful Journal</h3>
+        <p>Search, star, and revisit your entries in list or calendar view.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">⏳</div>
+        <h3>Gratitude Time Machine</h3>
+        <p>See what you wrote exactly 30 days ago — a quiet reminder of your growth.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🌙</div>
+        <h3>Dark Mode</h3>
+        <p>A deep, clean dark theme that looks great morning or night.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📤</div>
+        <h3>Export Your Journal</h3>
+        <p>Your memories belong to you. Export as plain text or CSV anytime.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🔔</div>
+        <h3>Smart Reminders</h3>
+        <p>Daily nudges keep your streak alive without being annoying about it.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PRIVACY -->
+  <section class="section">
+    <div class="privacy-section">
+      <p class="section-label" style="margin-bottom:12px;">Privacy</p>
+      <h2>Your journal stays yours.</h2>
+      <p>
+        No account required. No data collected. No ads. Ever.
+        Everything you write stays on your device — we have no servers,
+        no access, and no interest in your data.
+      </p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2>Start your streak today.</h2>
+    <p>
+      You already pick up your phone first thing in the morning.
+      Gratitude Key just asks you to pause for 30 seconds before you dive in.
+    </p>
+    <a href="https://play.google.com/store/apps/details?id=com.simon.gratitudekey" class="btn-primary">
+      ▶ Download on Google Play
+    </a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-logo">🗝 Gratitude Key</span>
+    <ul class="footer-links">
+      <li><a href="#how-it-works">How it works</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="privacy.html">Privacy Policy</a></li>
+      <li><a href="terms.html">Terms of Use</a></li>
+      <li><a href="mailto:gratitudekeyapp@gmail.com">Contact</a></li>
+    </ul>
+    <span class="footer-copy">© 2025 Gratitude Key</span>
+  </footer>
+
+</body>
+</html>
